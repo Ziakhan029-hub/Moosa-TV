@@ -38,7 +38,7 @@
   --ok-soft:#EEF6F0;
   --maxw:860px;
   /* tokens the interactive expects */
-  --surface:#F1EFE8;--line:#E0DCD2;--ink-2:#3D4350;--ink-3:#6B7180;--txt-soft:#6B7180;--yellow:#E8B40C;--red:#C0392B;
+  --surface:#F1EFE8;--line:#E0DCD2;--ink-2:#3D4350;--ink-3:#6B7180;--txt-soft:#6B7180;--yellow:#E8B40C;--red:#C0392B;--gold:#f0d83c;--rod:#f2cb2b;--rod-edge:#caa413;--card:#fff;--line-2:#dfdfdf;--txt:#222;--txt-faint:#9a9a9a;--radius:16px;--radius-sm:11px;--shadow:0 1px 2px rgba(0,0,0,.04),0 6px 20px -10px rgba(0,0,0,.12);--shadow-sm:0 1px 3px rgba(0,0,0,.06);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -131,31 +131,39 @@ h2.sec{font-size:25px;font-weight:900;letter-spacing:-.4px;line-height:1.3;margi
 .thm p{font-size:15px;color:var(--graphite);line-height:1.85}
 @media(max-width:560px){ .thm{grid-template-columns:1fr;gap:12px} .thm .fig{width:116px;height:84px} }
 
-/* ===== interactive (kept exactly) ===== */
-.ix-hint{font-size:13.5px;color:var(--txt-soft);text-align:center;line-height:1.7;max-width:440px}
-.ix-stage{width:100%;max-width:460px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px}
-#desmosGraph{width:100%;height:340px;border-radius:10px;overflow:hidden;display:none}
-#desmosGraph.on{display:block}
-.ix-fallback{width:100%;height:auto;display:block;touch-action:none}
-.ix-stage.desmos-ready .ix-fallback{display:none}
-#ixSvg{width:100%;height:auto;display:block;touch-action:none}
-.ixHandle{cursor:grab;transition:fill .12s, r .12s}
-.ixHandle:hover{fill:#000}
-.ixHandle.drag{cursor:grabbing;fill:#c03024}
-.ix-result .math{color:var(--ink)!important;font-weight:800}
-.given .ix-result{background:#fff;border-color:var(--ink-3)}
-.ix-formula{font-size:14.5px;color:var(--txt-soft);text-align:center;background:#f0faf3;border:1px solid #bfe6cd;border-radius:11px;padding:11px 16px;max-width:440px;width:100%}
-.ix-formula .math{color:#176b38}
-.ix-formula strong{color:#0f5c2e;font-size:16px}
-.given{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
-.given .chip{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px 14px;font-size:14px;font-weight:600}
-.given .chip .math{color:var(--ink-2)}
-.toggle-ans{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;font-size:13.5px;font-weight:700;padding:9px 18px;border-radius:9px;transition:.15s}
-.toggle-ans:hover{background:#000}
-.toggle-ans svg{width:15px;height:15px}
-.ans-reveal{display:none;width:100%;background:#f0faf3;border:1px solid #bfe6cd;border-radius:11px;padding:14px 16px;font-size:14.5px;font-weight:600;color:#176b38;text-align:center;margin-top:6px}
-.ans-reveal.show{display:block}
-.ix-frame{display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:18px}
+/* ===== interactive card ===== */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;width:100%;margin-top:32px}
+.card-h{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.card-h .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:#fff;flex:none;background:var(--ink)}
+.card-h .ic svg{width:17px;height:17px}
+.card-h h2{font-size:17px;font-weight:800;color:var(--ink)}
+.card-b{padding:20px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.ix-hint{font-size:13.5px;color:var(--txt-soft);text-align:center;line-height:1.7;max-width:460px}
+.stage-wrap{width:100%}
+.ix-stage{position:relative;width:100%;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm)}
+#quadSvg{width:100%;height:auto;display:block;touch-action:none;background:#fff}
+.joint{cursor:grab;transition:filter .12s}
+.joint:hover .joint-ring{stroke:var(--ink)}
+.joint.drag{cursor:grabbing}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;width:100%}
+.toggle{display:inline-flex;align-items:center;gap:9px;background:var(--surface);border:1.5px solid var(--line-2);border-radius:10px;padding:9px 14px;font-size:14px;font-weight:700;color:var(--txt-soft);cursor:pointer;transition:.15s;user-select:none}
+.toggle:hover{border-color:var(--ink-3);color:var(--ink)}
+.toggle.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.toggle .box{width:18px;height:18px;border-radius:5px;border:2px solid currentColor;display:grid;place-items:center;flex:none}
+.toggle .box svg{width:12px;height:12px;opacity:0;transition:opacity .12s}
+.toggle.on .box{background:#fff;border-color:#fff}
+.toggle.on .box svg{opacity:1;color:var(--ink)}
+.toggle .ic{width:16px;height:16px;flex:none}
+.reset{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--ink);font-size:13.5px;font-weight:800;padding:9px 18px;border:none;border-radius:10px;cursor:pointer;transition:.15s}
+.reset:hover{background:var(--yellow)}
+.reset svg{width:15px;height:15px}
+.readout{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;width:100%}
+.chip{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px 14px;font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.chip b{color:var(--ink);font-weight:800}
+.chip.sum{background:#f0faf3;border-color:#bfe6cd;color:#176b38}
+.chip.sum b{color:#0f5c2e}
+.name-tag{font-size:14px;font-weight:800;color:var(--ink);background:#fff5d6;border:1px solid #f0d96a;border-radius:9px;padding:8px 18px;text-align:center}
+@media(max-width:520px){.toggle{padding:8px 11px;font-size:13px}.chip{font-size:12.5px;padding:7px 11px}}
 
 /* ===== 4) summary table ===== */
 .tablewrap{margin-top:18px;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden}
@@ -361,55 +369,66 @@ table.summary .eqcell{text-align:center}
     <!-- interactive shape (KEPT EXACTLY) -->
     <div class="eyebrow" style="margin-top:38px">جرّب بنفسك · <span class="mid">تفاعلي</span></div>
     <h2 class="sec">حرّك الشكل، راقب القطعة</h2>
-    <p class="sec-sub">غيّر الرؤوس ولاحظ أن القطعة المتوسطة تبقى دائمًا نصف مجموع القاعدتين.</p>
 
-    <div class="ix-frame">
-      <p class="ix-hint">اسحب أيًّا من رؤوس شبه المنحرف <span style="color:var(--ink);font-weight:700">●</span> ولاحظ كيف يتغيّر طول القطعة المتوسطة <span style="color:var(--red);font-weight:700">●</span> تلقائيًّا.</p>
-
-      <div class="ix-stage">
-        <!-- Desmos graphing calculator mounts here on supported networks -->
-        <div id="desmosGraph"></div>
-        <!-- SVG fallback (shown only if Desmos can't load) -->
-        <svg id="ixSvg" class="ix-fallback" viewBox="0 0 360 240" preserveAspectRatio="xMidYMid meet">
-          <!-- grid -->
-          <defs><pattern id="g" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#eee" stroke-width="1"/></pattern></defs>
-          <rect x="0" y="0" width="360" height="240" fill="url(#g)"/>
-          <!-- legs + bases polygon -->
-          <polygon id="ixPoly" points="" fill="#f6f6f6" stroke="#212121" stroke-width="2.5" stroke-linejoin="round"/>
-          <!-- midsegment -->
-          <line id="ixMid" x1="0" y1="0" x2="0" y2="0" stroke="#c03024" stroke-width="2.5" stroke-dasharray="7 5"/>
-          <!-- midpoint dots -->
-          <circle id="ixMidL" r="4" fill="#c03024"/>
-          <circle id="ixMidR" r="4" fill="#c03024"/>
-          <!-- length labels (on shape) -->
-          <text id="ixTopLbl" font-size="12" font-weight="700" fill="#212121" text-anchor="middle"></text>
-          <text id="ixBotLbl" font-size="12" font-weight="700" fill="#212121" text-anchor="middle"></text>
-          <text id="ixMidLbl" font-size="12" font-weight="700" fill="#c03024" text-anchor="middle"></text>
-          <!-- vertex labels -->
-          <text id="lblA" font-size="13" font-style="italic" fill="#212121"></text>
-          <text id="lblB" font-size="13" font-style="italic" fill="#212121"></text>
-          <text id="lblC" font-size="13" font-style="italic" fill="#212121"></text>
-          <text id="lblD" font-size="13" font-style="italic" fill="#212121"></text>
-          <!-- draggable handles (rendered last = on top) -->
-          <circle class="ixHandle" data-i="0" r="9" fill="#212121"/>
-          <circle class="ixHandle" data-i="1" r="9" fill="#212121"/>
-          <circle class="ixHandle" data-i="2" r="9" fill="#212121"/>
-          <circle class="ixHandle" data-i="3" r="9" fill="#212121"/>
-        </svg>
+    <div class="card">
+      <div class="card-h">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7l5-4 13 3-2 12-13 1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="8" cy="3" r="1.6" fill="currentColor"/><circle cx="21" cy="6" r="1.6" fill="currentColor"/><circle cx="19" cy="18" r="1.6" fill="currentColor"/><circle cx="6" cy="19" r="1.6" fill="currentColor"/></svg></span>
+        <h2>الشكل الرباعي التفاعلي</h2>
       </div>
-
-      <div class="given" id="ixReadout">
-        <span class="chip">القاعدة الكبرى <span class="math" id="ixBig">٠</span></span>
-        <span class="chip">القاعدة الصغرى <span class="math" id="ixSmall">٠</span></span>
-        <span class="chip ix-result">القطعة المتوسطة <span class="math" id="ixMidVal">٠</span></span>
+      <div class="card-b">
+        <p class="ix-hint">اسحب أيًّا من الرؤوس الأربعة <span style="color:var(--rod-edge);font-weight:800">●</span> لتغيير شكل الرباعي، ولاحظ كيف تتغيّر أطوال الأضلاع وقياسات الزوايا. جرّب أيضًا إظهار المسطرة والقطرين والشبكة.</p>
+        <div class="name-tag" id="shapeName">رباعي عام</div>
+        <div class="stage-wrap">
+          <div class="ix-stage">
+            <svg id="quadSvg" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet">
+              <g id="gridLayer" style="display:none">
+                <defs><pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#eaeaea" stroke-width="1"/></pattern></defs>
+                <rect x="0" y="0" width="600" height="420" fill="url(#grid)"/>
+              </g>
+              <g id="diagLayer" style="display:none">
+                <line id="diagAC" stroke="#bdbdbd" stroke-width="2" stroke-dasharray="9 7"/>
+                <line id="diagBD" stroke="#bdbdbd" stroke-width="2" stroke-dasharray="9 7"/>
+              </g>
+              <polygon id="quadFill" points="" fill="rgba(242,203,43,.10)"/>
+              <g id="angleLayer" style="display:none"></g>
+              <g id="rodLayer"></g>
+              <g id="angleTextLayer" style="display:none"></g>
+              <g id="lenTextLayer" style="display:none"></g>
+              <g id="jointLayer"></g>
+            </svg>
+          </div>
+        </div>
+        <div class="toolbar">
+          <div class="toggle" data-feat="markers">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M2 9h20v6H2z" stroke="currentColor" stroke-width="2"/><path d="M6 9v3M10 9v4M14 9v3M18 9v4" stroke="currentColor" stroke-width="1.6"/></svg>
+            المسطرة والزوايا
+          </div>
+          <div class="toggle" data-feat="diagonals">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 4l16 16M20 4 4 20" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/></svg>
+            القطران
+          </div>
+          <div class="toggle" data-feat="grid">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 9h18M3 15h18M9 3v18M15 3v18" stroke="currentColor" stroke-width="2"/></svg>
+            الشبكة
+          </div>
+          <div class="toggle on" data-feat="labels">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <svg class="ic" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M10 16V8h2.5a2.2 2.2 0 0 1 0 4.4H10" stroke="currentColor" stroke-width="1.8"/></svg>
+            التسميات
+          </div>
+          <button class="reset" id="resetBtn"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>إعادة تعيين</button>
+        </div>
+        <div class="readout" id="readout">
+          <span class="chip">الضلع <b class="math">أب</b> = <b id="rAB">٠</b></span>
+          <span class="chip">الضلع <b class="math">بج</b> = <b id="rBC">٠</b></span>
+          <span class="chip">الضلع <b class="math">جد</b> = <b id="rCD">٠</b></span>
+          <span class="chip">الضلع <b class="math">دأ</b> = <b id="rDA">٠</b></span>
+          <span class="chip sum">مجموع الزوايا = <b id="rAngles">٣٦٠</b>°</span>
+        </div>
       </div>
-
-      <div class="ix-formula">
-        القطعة المتوسطة = نصف مجموع القاعدتين =
-        <span class="math">(<span id="fBig">٠</span> + <span id="fSmall">٠</span>) ÷ ٢ = <strong id="fMid">٠</strong></span>
-      </div>
-
-      <button class="toggle-ans" onclick="resetTrap()"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>إعادة تعيين الشكل</button>
     </div>
   </section>
 
@@ -524,150 +543,172 @@ document.getElementById('likeBtn').addEventListener('click',function(){
   this.classList.toggle('liked',liked);
 });
 
-// ===== interactive draggable trapezoid (UNCHANGED LOGIC) =====
-const ixSvg=document.getElementById('ixSvg');
-const PX_PER_UNIT=11;
-const HOME=[ [300,185],[60,185],[110,70],[250,70] ];
-let V=HOME.map(p=>p.slice());
-
-function dist(a,b){return Math.hypot(a[0]-b[0],a[1]-b[1]);}
-function mid(a,b){return [(a[0]+b[0])/2,(a[1]+b[1])/2];}
-function toUnits(px){return Math.round(px/PX_PER_UNIT);}
-
-function drawTrap(){
+// ===== interactive quadrilateral =====
+const NS = 'http://www.w3.org/2000/svg';
+const W = 600, H = 420;
+const UNIT = 26;
+const LABELS = ['أ','ب','ج','د'];
+const HOME = [ [185,120], [415,120], [415,300], [185,300] ];
+let V = HOME.map(p => p.slice());
+const state = { markers:false, diagonals:false, grid:false, labels:true };
+const quadSvg     = document.getElementById('quadSvg');
+const rodLayer    = document.getElementById('rodLayer');
+const jointLayer  = document.getElementById('jointLayer');
+const angleLayer  = document.getElementById('angleLayer');
+const angleText   = document.getElementById('angleTextLayer');
+const lenText     = document.getElementById('lenTextLayer');
+function buildPieces(){
+  for(let i=0;i<4;i++){
+    const g=document.createElementNS(NS,'g'); g.setAttribute('class','rod'); g.dataset.i=i;
+    const body=document.createElementNS(NS,'rect');
+    body.setAttribute('rx','9');body.setAttribute('height','18');body.setAttribute('y','-9');
+    body.setAttribute('fill','var(--rod)');body.setAttribute('stroke','var(--rod-edge)');body.setAttribute('stroke-width','2');
+    g.appendChild(body);
+    const ticks=document.createElementNS(NS,'g'); ticks.setAttribute('class','ticks'); g.appendChild(ticks);
+    rodLayer.appendChild(g);
+  }
+  for(let i=0;i<4;i++){
+    const g=document.createElementNS(NS,'g'); g.setAttribute('class','joint'); g.dataset.i=i;
+    const ring=document.createElementNS(NS,'circle');
+    ring.setAttribute('class','joint-ring');ring.setAttribute('r','15');
+    ring.setAttribute('fill','#f5d24a');ring.setAttribute('stroke','var(--rod-edge)');ring.setAttribute('stroke-width','2.5');
+    const lbl=document.createElementNS(NS,'text');
+    lbl.setAttribute('class','joint-lbl');lbl.setAttribute('text-anchor','middle');
+    lbl.setAttribute('dy','.36em');lbl.setAttribute('font-size','15');
+    lbl.setAttribute('font-weight','800');lbl.setAttribute('fill','var(--ink)');
+    g.appendChild(ring);g.appendChild(lbl);
+    jointLayer.appendChild(g);
+  }
+}
+const qdist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+const qmid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+const toUnits=px=>Math.round(px/UNIT*10)/10;
+function signedArea(){let s=0;for(let i=0;i<4;i++){const a=V[i],b=V[(i+1)%4];s+=a[0]*b[1]-b[0]*a[1];}return s/2;}
+function interiorAngle(i){
+  const p=V[i],prev=V[(i+3)%4],next=V[(i+1)%4];
+  const v1=[prev[0]-p[0],prev[1]-p[1]],v2=[next[0]-p[0],next[1]-p[1]];
+  let dot=v1[0]*v2[0]+v1[1]*v2[1];
+  let mag=Math.hypot(v1[0],v1[1])*Math.hypot(v2[0],v2[1])||1;
+  let base=Math.acos(Math.max(-1,Math.min(1,dot/mag)))*180/Math.PI;
+  const cross=v1[0]*v2[1]-v1[1]*v2[0];
+  const reflex=(signedArea()>0)?(cross>0):(cross<0);
+  return reflex?360-base:base;
+}
+function draw(){
   const [A,B,C,D]=V;
-  document.getElementById('ixPoly').setAttribute('points',`${A[0]},${A[1]} ${B[0]},${B[1]} ${C[0]},${C[1]} ${D[0]},${D[1]}`);
-  const mL=mid(B,C), mR=mid(A,D);
-  const segMid=document.getElementById('ixMid');
-  segMid.setAttribute('x1',mL[0]);segMid.setAttribute('y1',mL[1]);
-  segMid.setAttribute('x2',mR[0]);segMid.setAttribute('y2',mR[1]);
-  document.getElementById('ixMidL').setAttribute('cx',mL[0]);document.getElementById('ixMidL').setAttribute('cy',mL[1]);
-  document.getElementById('ixMidR').setAttribute('cx',mR[0]);document.getElementById('ixMidR').setAttribute('cy',mR[1]);
-  document.querySelectorAll('.ixHandle').forEach(h=>{const v=V[+h.dataset.i];h.setAttribute('cx',v[0]);h.setAttribute('cy',v[1]);});
-  place('lblA',A,[10,6]); place('lblB',B,[-16,6]); place('lblC',C,[-16,-8]); place('lblD',D,[10,-8]);
-  const bottom=toUnits(dist(A,B)), top=toUnits(dist(C,D)), midLen=toUnits(dist(mL,mR));
-  setText('ixBotLbl', toAr(bottom), mid(A,B), [0,20]);
-  setText('ixTopLbl', toAr(top), mid(C,D), [0,-12]);
-  setText('ixMidLbl', toAr(midLen), mid(mL,mR), [0,-9]);
-  const big=Math.max(bottom,top), small=Math.min(bottom,top);
-  document.getElementById('ixBig').textContent=toAr(big);
-  document.getElementById('ixSmall').textContent=toAr(small);
-  document.getElementById('ixMidVal').textContent=toAr(midLen);
-  const exact=(big+small)/2;
-  const exactTxt=Number.isInteger(exact)?toAr(exact):toAr(exact.toFixed(1));
-  document.getElementById('fBig').textContent=toAr(big);
-  document.getElementById('fSmall').textContent=toAr(small);
-  document.getElementById('fMid').textContent=exactTxt;
+  document.getElementById('quadFill').setAttribute('points',`${A[0]},${A[1]} ${B[0]},${B[1]} ${C[0]},${C[1]} ${D[0]},${D[1]}`);
+  rodLayer.querySelectorAll('.rod').forEach(g=>{
+    const i=+g.dataset.i,p=V[i],q=V[(i+1)%4];
+    const len=qdist(p,q),ang=Math.atan2(q[1]-p[1],q[0]-p[0])*180/Math.PI;
+    g.setAttribute('transform',`translate(${p[0]},${p[1]}) rotate(${ang})`);
+    const body=g.querySelector('rect'); body.setAttribute('width',len);body.setAttribute('x','0');
+    const ticks=g.querySelector('.ticks');ticks.innerHTML='';
+    if(state.markers){const n=Math.floor(len/UNIT);for(let t=1;t<=n;t++){const x=t*UNIT,big=(t%5===0);const ln=document.createElementNS(NS,'line');ln.setAttribute('x1',x);ln.setAttribute('x2',x);ln.setAttribute('y1',-9);ln.setAttribute('y2',big?9:0);ln.setAttribute('stroke','var(--rod-edge)');ln.setAttribute('stroke-width',big?1.6:1);ln.setAttribute('opacity',big?0.9:0.6);ticks.appendChild(ln);}}
+  });
+  jointLayer.querySelectorAll('.joint').forEach(g=>{
+    const i=+g.dataset.i,v=V[i];
+    g.setAttribute('transform',`translate(${v[0]},${v[1]})`);
+    g.querySelector('.joint-lbl').textContent=state.labels?LABELS[i]:'';
+  });
+  if(state.diagonals){setDiagonal('diagAC',A,C);setDiagonal('diagBD',B,D);}
+  angleLayer.innerHTML='';angleText.innerHTML='';
+  if(state.markers){
+    const cen=[(A[0]+B[0]+C[0]+D[0])/4,(A[1]+B[1]+C[1]+D[1])/4];
+    for(let i=0;i<4;i++){
+      const p=V[i],prev=V[(i+3)%4],next=V[(i+1)%4];
+      const aPrev=Math.atan2(prev[1]-p[1],prev[0]-p[0]),aNext=Math.atan2(next[1]-p[1],next[0]-p[0]);
+      const deg=interiorAngle(i),reflex=deg>180,r=22;
+      let delta=aPrev-aNext; while(delta<0)delta+=2*Math.PI;
+      const midCCW=aNext+delta/2;
+      const towardCenter=((p[0]+Math.cos(midCCW)-cen[0])**2+(p[1]+Math.sin(midCCW)-cen[1])**2)<((p[0]-cen[0])**2+(p[1]-cen[1])**2);
+      const start=aNext,sweepAng=towardCenter?delta:delta-2*Math.PI,end=start+sweepAng;
+      const x1=p[0]+r*Math.cos(start),y1=p[1]+r*Math.sin(start),x2=p[0]+r*Math.cos(end),y2=p[1]+r*Math.sin(end);
+      const large=Math.abs(sweepAng)>Math.PI?1:0,sweepFlag=sweepAng>0?1:0;
+      const path=document.createElementNS(NS,'path');
+      path.setAttribute('d',`M ${p[0]} ${p[1]} L ${x1} ${y1} A ${r} ${r} 0 ${large} ${sweepFlag} ${x2} ${y2} Z`);
+      path.setAttribute('fill',reflex?'rgba(192,48,36,.16)':'rgba(33,33,33,.13)');
+      path.setAttribute('stroke',reflex?'var(--red)':'var(--ink-3)');path.setAttribute('stroke-width','1.5');
+      angleLayer.appendChild(path);
+      const bis=start+sweepAng/2,tr=r+16;
+      const t=document.createElementNS(NS,'text');
+      t.setAttribute('x',p[0]+tr*Math.cos(bis));t.setAttribute('y',p[1]+tr*Math.sin(bis));
+      t.setAttribute('text-anchor','middle');t.setAttribute('dy','.35em');t.setAttribute('font-size','12.5');t.setAttribute('font-weight','800');
+      t.setAttribute('fill',reflex?'var(--red)':'var(--ink)');t.textContent=toAr(Math.round(deg))+'°';
+      angleText.appendChild(t);
+    }
+  }
+  lenText.innerHTML='';
+  if(state.markers){
+    [[A,B],[B,C],[C,D],[D,A]].forEach(([p,q])=>{
+      const m=qmid(p,q),ang=Math.atan2(q[1]-p[1],q[0]-p[0]);
+      const cen=[(A[0]+B[0]+C[0]+D[0])/4,(A[1]+B[1]+C[1]+D[1])/4];
+      let nx=-Math.sin(ang),ny=Math.cos(ang);
+      if((m[0]+nx-cen[0])**2+(m[1]+ny-cen[1])**2<(m[0]-cen[0])**2+(m[1]-cen[1])**2){nx=-nx;ny=-ny;}
+      const t=document.createElementNS(NS,'text');
+      t.setAttribute('x',m[0]+nx*20);t.setAttribute('y',m[1]+ny*20);
+      t.setAttribute('text-anchor','middle');t.setAttribute('dy','.35em');t.setAttribute('font-size','12.5');t.setAttribute('font-weight','800');t.setAttribute('fill','var(--ink-2)');
+      t.textContent=toAr(toUnits(qdist(p,q)));lenText.appendChild(t);
+    });
+  }
+  updateReadout();
 }
-function place(id,v,off){const t=document.getElementById(id);t.setAttribute('x',v[0]+off[0]);t.setAttribute('y',v[1]+off[1]);t.textContent=({lblA:'أ',lblB:'ب',lblC:'ج',lblD:'د'})[id];}
-function setText(id,txt,pos,off){const t=document.getElementById(id);t.setAttribute('x',pos[0]+off[0]);t.setAttribute('y',pos[1]+off[1]);t.textContent=txt;}
-
-function svgPoint(evt){
-  const pt=ixSvg.createSVGPoint();
-  const t=evt.touches?evt.touches[0]:evt;
-  pt.x=t.clientX;pt.y=t.clientY;
-  return pt.matrixTransform(ixSvg.getScreenCTM().inverse());
+function setDiagonal(id,p,q){
+  const dx=q[0]-p[0],dy=q[1]-p[1],inter=[];
+  if(dx!==0){let tL=(0-p[0])/dx,yL=p[1]+tL*dy;if(yL>=0&&yL<=H)inter.push([0,yL]);let tR=(W-p[0])/dx,yR=p[1]+tR*dy;if(yR>=0&&yR<=H)inter.push([W,yR]);}
+  if(dy!==0){let tT=(0-p[1])/dy,xT=p[0]+tT*dx;if(xT>=0&&xT<=W)inter.push([xT,0]);let tB=(H-p[1])/dy,xB=p[0]+tB*dx;if(xB>=0&&xB<=W)inter.push([xB,H]);}
+  const ln=document.getElementById(id);
+  if(inter.length>=2){ln.setAttribute('x1',inter[0][0]);ln.setAttribute('y1',inter[0][1]);ln.setAttribute('x2',inter[1][0]);ln.setAttribute('y2',inter[1][1]);}
 }
-let dragging=null;
-function startDrag(e){
-  const h=e.target.closest('.ixHandle');if(!h)return;
-  dragging=+h.dataset.i;h.classList.add('drag');
-  e.preventDefault();
+function classify(){
+  const s=[qdist(V[0],V[1]),qdist(V[1],V[2]),qdist(V[2],V[3]),qdist(V[3],V[0])];
+  const ang=[0,1,2,3].map(interiorAngle);
+  const eq=(a,b,tol)=>Math.abs(a-b)<=tol;
+  const allRight=ang.every(a=>eq(a,90,7)),sidesEqual=eq(s[0],s[1],10)&&eq(s[1],s[2],10)&&eq(s[2],s[3],10),oppEqual=eq(s[0],s[2],10)&&eq(s[1],s[3],10);
+  const slope=(p,q)=>Math.atan2(q[1]-p[1],q[0]-p[0]);
+  const par=(p1,q1,p2,q2)=>{let d=Math.abs(slope(p1,q1)-slope(p2,q2));d=Math.min(d,Math.PI-d);return d<0.09;};
+  const parAB_CD=par(V[0],V[1],V[3],V[2]),parBC_DA=par(V[1],V[2],V[0],V[3]);
+  if(allRight&&sidesEqual)return 'مربّع';
+  if(allRight&&oppEqual)return 'مستطيل';
+  if(sidesEqual)return 'معيّن';
+  if(oppEqual&&parAB_CD&&parBC_DA)return 'متوازي أضلاع';
+  if(parAB_CD||parBC_DA)return 'شبه منحرف';
+  return 'رباعي عام';
 }
-function moveDrag(e){
-  if(dragging===null)return;
-  const p=svgPoint(e);
-  let x=Math.max(16,Math.min(344,p.x));
-  let y=Math.max(16,Math.min(224,p.y));
-  if(dragging===0||dragging===1) y=Math.max(125,y); else y=Math.min(115,y);
-  V[dragging]=[x,y];
-  drawTrap();
-  e.preventDefault();
+function updateReadout(){
+  document.getElementById('rAB').textContent=toAr(toUnits(qdist(V[0],V[1])));
+  document.getElementById('rBC').textContent=toAr(toUnits(qdist(V[1],V[2])));
+  document.getElementById('rCD').textContent=toAr(toUnits(qdist(V[2],V[3])));
+  document.getElementById('rDA').textContent=toAr(toUnits(qdist(V[3],V[0])));
+  const sum=[0,1,2,3].reduce((s,i)=>s+interiorAngle(i),0);
+  document.getElementById('rAngles').textContent=toAr(Math.round(sum));
+  document.getElementById('shapeName').textContent=classify();
 }
-function endDrag(){
-  if(dragging!==null)document.querySelector(`.ixHandle[data-i="${dragging}"]`).classList.remove('drag');
-  dragging=null;
-}
-ixSvg.addEventListener('mousedown',startDrag);
+function svgPoint(evt){const pt=quadSvg.createSVGPoint();const t=evt.touches?evt.touches[0]:evt;pt.x=t.clientX;pt.y=t.clientY;return pt.matrixTransform(quadSvg.getScreenCTM().inverse());}
+let qdragging=null;
+function startDrag(e){const g=e.target.closest('.joint');if(!g)return;qdragging=+g.dataset.i;g.classList.add('drag');e.preventDefault();}
+function moveDrag(e){if(qdragging===null)return;const p=svgPoint(e);const m=22;V[qdragging]=[Math.max(m,Math.min(W-m,p.x)),Math.max(m,Math.min(H-m,p.y))];draw();e.preventDefault();}
+function endDrag(){if(qdragging!==null){const g=jointLayer.querySelector(`.joint[data-i="${qdragging}"]`);if(g)g.classList.remove('drag');}qdragging=null;}
+quadSvg.addEventListener('mousedown',startDrag);
 window.addEventListener('mousemove',moveDrag);
 window.addEventListener('mouseup',endDrag);
-ixSvg.addEventListener('touchstart',startDrag,{passive:false});
+quadSvg.addEventListener('touchstart',startDrag,{passive:false});
 window.addEventListener('touchmove',moveDrag,{passive:false});
 window.addEventListener('touchend',endDrag);
-
-function resetTrap(){
-  if(window.__desmosCalc && window.setDesmosHome){ window.setDesmosHome(); return; }
-  V=HOME.map(p=>p.slice());drawTrap();
-}
-drawTrap();
-
-// ===== Desmos integration (UNCHANGED) =====
-(function(){
-  const HOME_PTS={ Ax:8, Ay:0, Bx:-8, By:0, Cx:-5, Cy:6, Dx:5, Dy:6 };
-  function setDesmosHome(){
-    const c=window.__desmosCalc; if(!c)return;
-    c.setExpressions(Object.keys(HOME_PTS).map(k=>({id:k,latex:`${k}=${HOME_PTS[k]}`})));
-  }
-  window.setDesmosHome=setDesmosHome;
-  function buildGraph(){
-    const Calc=window.Desmos;
-    if(!Calc||!Calc.GraphingCalculator)return false;
-    const el=document.getElementById('desmosGraph');
-    const calc=Calc.GraphingCalculator(el,{
-      keypad:false, expressions:false, settingsMenu:false, zoomButtons:true,
-      lockViewport:false, border:false, expressionsCollapsed:true,
-      showGrid:true, xAxisNumbers:true, yAxisNumbers:true
-    });
-    window.__desmosCalc=calc;
-    calc.setMathBounds({left:-12,right:12,bottom:-3,top:11});
-    setDesmosHome();
-    calc.setExpression({id:'trap',latex:'\\operatorname{polygon}\\left(\\left(A_{x},A_{y}\\right),\\left(B_{x},B_{y}\\right),\\left(C_{x},C_{y}\\right),\\left(D_{x},D_{y}\\right)\\right)',color:'#212121',fill:true,fillOpacity:0.08});
-    calc.setExpression({id:'Mx',latex:'M_{x}=\\frac{B_{x}+C_{x}}{2}',secret:true});
-    calc.setExpression({id:'My',latex:'M_{y}=\\frac{B_{y}+C_{y}}{2}',secret:true});
-    calc.setExpression({id:'Nx',latex:'N_{x}=\\frac{A_{x}+D_{x}}{2}',secret:true});
-    calc.setExpression({id:'Ny',latex:'N_{y}=\\frac{A_{y}+D_{y}}{2}',secret:true});
-    calc.setExpression({id:'mid',latex:'\\operatorname{segment}\\left(\\left(M_{x},M_{y}\\right),\\left(N_{x},N_{y}\\right)\\right)',color:'#c03024',lineStyle:Calc.Styles.DASHED,lineWidth:3});
-    calc.setExpression({id:'A',latex:'\\left(A_{x},A_{y}\\right)',color:'#212121',dragMode:Calc.DragModes.XY,label:'أ',showLabel:true,pointSize:14});
-    calc.setExpression({id:'B',latex:'\\left(B_{x},B_{y}\\right)',color:'#212121',dragMode:Calc.DragModes.XY,label:'ب',showLabel:true,pointSize:14});
-    calc.setExpression({id:'C',latex:'\\left(C_{x},C_{y}\\right)',color:'#212121',dragMode:Calc.DragModes.XY,label:'ج',showLabel:true,pointSize:14});
-    calc.setExpression({id:'D',latex:'\\left(D_{x},D_{y}\\right)',color:'#212121',dragMode:Calc.DragModes.XY,label:'د',showLabel:true,pointSize:14});
-    calc.setExpression({id:'Mp',latex:'\\left(M_{x},M_{y}\\right)',color:'#c03024',pointSize:9});
-    calc.setExpression({id:'Np',latex:'\\left(N_{x},N_{y}\\right)',color:'#c03024',pointSize:9});
-    const hBottom=calc.HelperExpression({latex:'\\operatorname{distance}\\left(\\left(A_{x},A_{y}\\right),\\left(B_{x},B_{y}\\right)\\right)'});
-    const hTop=calc.HelperExpression({latex:'\\operatorname{distance}\\left(\\left(C_{x},C_{y}\\right),\\left(D_{x},D_{y}\\right)\\right)'});
-    const hMid=calc.HelperExpression({latex:'\\operatorname{distance}\\left(\\left(M_{x},M_{y}\\right),\\left(N_{x},N_{y}\\right)\\right)'});
-    function refresh(){
-      const b=hBottom.numericValue, t=hTop.numericValue, m=hMid.numericValue;
-      if(isNaN(b)||isNaN(t)||isNaN(m))return;
-      const big=Math.max(b,t), small=Math.min(b,t);
-      const r1=Math.round(big*10)/10, r2=Math.round(small*10)/10, rm=Math.round(m*10)/10;
-      const fmt=x=>toAr(Number.isInteger(x)?x:x.toFixed(1));
-      document.getElementById('ixBig').textContent=fmt(r1);
-      document.getElementById('ixSmall').textContent=fmt(r2);
-      document.getElementById('ixMidVal').textContent=fmt(rm);
-      document.getElementById('fBig').textContent=fmt(r1);
-      document.getElementById('fSmall').textContent=fmt(r2);
-      document.getElementById('fMid').textContent=fmt(Math.round(((big+small)/2)*10)/10);
-    }
-    hBottom.observe('numericValue',refresh);
-    hTop.observe('numericValue',refresh);
-    hMid.observe('numericValue',refresh);
-    refresh();
-    el.classList.add('on');
-    document.querySelector('.ix-stage').classList.add('desmos-ready');
-    return true;
-  }
-  function loadDesmos(){
-    if(window.Desmos){buildGraph();return;}
-    const s=document.createElement('script');
-    s.src='https://www.desmos.com/api/v1.10/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6';
-    s.async=true;
-    s.onload=function(){ try{ buildGraph(); }catch(e){} };
-    s.onerror=function(){};
-    document.head.appendChild(s);
-  }
-  loadDesmos();
-})();
+document.querySelectorAll('.toggle').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const f=btn.dataset.feat; if(!f)return;
+    state[f]=!state[f]; btn.classList.toggle('on',state[f]);
+    document.getElementById('gridLayer').style.display=state.grid?'block':'none';
+    document.getElementById('diagLayer').style.display=state.diagonals?'block':'none';
+    angleLayer.style.display=state.markers?'block':'none';
+    angleText.style.display=state.markers?'block':'none';
+    lenText.style.display=state.markers?'block':'none';
+    draw();
+  });
+});
+document.getElementById('resetBtn').addEventListener('click',()=>{V=HOME.map(p=>p.slice());draw();});
+buildPieces();
+draw();
 
 // ===== MCQs =====
 function trapFig(){return `<svg viewBox="0 0 150 90" fill="none"><polygon points="18,72 132,72 108,24 42,24" stroke="var(--ink)" stroke-width="2.2" fill="none"/><line x1="30" y1="48" x2="120" y2="48" stroke="var(--mid)" stroke-width="2" stroke-dasharray="4 3"/></svg>`;}
