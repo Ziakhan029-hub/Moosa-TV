@@ -402,7 +402,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 const lessons=[
   {t:'الشروط الكافية للمعيّن',path:['الرياضيات','الثانوية','أول ثانوي 2026','الفصل الثاني'],views:148,likes:0,vid:true,pub:true},
   {t:'شبه المنحرف متطابق الساقين',path:['الرياضيات','الثانوية','أول ثانوي 2026','الفصل الثاني'],views:224,likes:0,vid:true,pub:true},
-  {t:'القطعة المتوسطة لشبه المنحرف',path:['الرياضيات','الثانوية','أول ثانوي 2026','الفصل الثاني'],views:267,likes:0,vid:true,pub:true},
+  {t:'القطعة المتوسطة لشبه المنحرف',path:['الرياضيات','الثانوية','أول ثانوي 2026','الفصل الثاني'],views:267,likes:0,vid:true,pub:true,url:'القطعة المتوسطة لشبه المنحرف.html'},
   {t:'المربع (حالة خاصة من المستطيل والمعيّن)',path:['الرياضيات','الثانوية','أول ثانوي 2026','الفصل الثاني'],views:193,likes:0,vid:true,pub:true},
   {t:'المعيّن (حالة خاصة من متوازي الأضلاع)',path:['الرياضيات','الثانوية','أول ثانوي 2026','الفصل الثاني'],views:176,likes:0,vid:true,pub:true},
   {t:'خصائص المستطيل (حالة خاصة من متوازي الأضلاع)',path:['الرياضيات','الثانوية','أول ثانوي 2026','الفصل الثاني'],views:142,likes:0,vid:true,pub:true},
@@ -426,7 +426,7 @@ const icon={
   edit:`<svg viewBox="0 0 24 24" fill="none"><path d="M4 20h4l11-11-4-4L4 16z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`,
 };
 
-document.getElementById('grid').innerHTML=lessons.map(l=>`
+document.getElementById('grid').innerHTML=lessons.map((l,i)=>`
   <div class="lcard">
     <div class="media">
       <div class="ph">${icon.ph}</div>
@@ -436,7 +436,7 @@ document.getElementById('grid').innerHTML=lessons.map(l=>`
     <div class="body">
       <h3>${l.t}</h3>
       <div class="desc">لا يوجد وصف</div>
-      <div class="path">${l.path.map((p,i)=>`${i?'<span class="sep">←</span>':''}${p}`).join(' ')}</div>
+      <div class="path">${l.path.map((p,j)=>`${j?'<span class="sep">←</span>':''}${p}`).join(' ')}</div>
       <div class="row">
         <div class="stat-mini">
           <span>${icon.like} ${toAr(l.likes)}</span>
@@ -448,8 +448,8 @@ document.getElementById('grid').innerHTML=lessons.map(l=>`
     <div class="footer">
       <button class="icon-act" title="المزيد">${icon.kebab}</button>
       <button class="icon-act" title="إخفاء">${icon.hide}</button>
-      <button class="icon-act" title="فتح">${icon.ext}</button>
-      <button class="edit-btn">${icon.edit} تعديل</button>
+      <button class="icon-act" title="فتح الدرس" ${l.url?`onclick="window.open('${l.url}','_blank')"`:'disabled'}>${icon.ext}</button>
+      <button class="edit-btn" data-idx="${i}">${icon.edit} تعديل</button>
     </div>
   </div>`).join('');
 
@@ -470,17 +470,48 @@ renderPager();
 const overlay=document.getElementById('overlay');
 const mTitle=document.getElementById('mTitle');
 const createBtn=document.getElementById('createBtn');
+let currentEditLesson=null;
 
-function openModal(mode,lesson){
+async function openModal(mode,lesson){
+  const ta=document.getElementById('htmlInput');
+  const prev=document.getElementById('htmlPrev');
+
   if(mode==='edit'){
-    mTitle.textContent='تعديل الدرس';
-    createBtn.textContent='حفظ التغييرات';
-    if(lesson){document.getElementById('fTitle').value=lesson.t;}
+    currentEditLesson=lesson;
+    mTitle.textContent='تعديل الدرس: '+lesson.t;
+    createBtn.textContent='تنزيل التعديلات';
+    document.getElementById('fTitle').value=lesson.t||'';
+    ta.value='';
+    prev.innerHTML='';
+
+    if(lesson.url){
+      ta.value='جارٍ تحميل محتوى الدرس...';
+      ta.disabled=true;
+      ta.style.color='var(--txt-faint)';
+      try{
+        const res=await fetch(lesson.url);
+        if(!res.ok)throw new Error('not found');
+        const text=await res.text();
+        ta.value=text;
+        ta.disabled=false;
+        ta.style.color='';
+        renderPreview('htmlInput','htmlPrev');
+      }catch(e){
+        ta.value='';
+        ta.disabled=false;
+        ta.style.color='';
+        ta.placeholder='تعذّر تحميل الملف. اكتب المحتوى يدوياً.';
+      }
+    }
   }else{
+    currentEditLesson=null;
     mTitle.textContent='إضافة درس جديد';
     createBtn.textContent='إنشاء الدرس';
     document.getElementById('fTitle').value='';
+    ta.value='';
+    prev.innerHTML='';
   }
+
   overlay.classList.add('open');
   document.body.style.overflow='hidden';
   updateBanner();
@@ -516,10 +547,27 @@ function renderPreview(srcId,prevId){
   prev.innerHTML=doc.body.innerHTML;
 }
 
-// wire buttons: "درس جديد" header + every "تعديل" card button
+// wire buttons
 document.querySelector('.btn-primary').addEventListener('click',()=>openModal('new'));
-document.querySelectorAll('.edit-btn').forEach((b,i)=>b.addEventListener('click',()=>openModal('edit',lessons[i])));
-createBtn.addEventListener('click',()=>{closeModal();});
+document.querySelectorAll('.edit-btn').forEach(b=>{
+  b.addEventListener('click',()=>openModal('edit',lessons[+b.dataset.idx]));
+});
+createBtn.addEventListener('click',()=>{
+  if(currentEditLesson&&currentEditLesson.url){
+    const content=document.getElementById('htmlInput').value;
+    if(content){
+      const blob=new Blob([content],{type:'text/html;charset=utf-8'});
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download=currentEditLesson.url;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+    }
+  }
+  closeModal();
+});
 </script>
 </body>
 </html>
