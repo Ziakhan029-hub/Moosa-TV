@@ -64,6 +64,9 @@ mjx-container{direction:ltr}
 .lhead .edit{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:var(--graphite);border:1.5px solid var(--rule-2);border-radius:10px;padding:9px 16px;transition:.15s;flex:none}
 .lhead .edit:hover{border-color:var(--ink);color:var(--ink)}
 .lhead .edit svg{width:15px;height:15px}
+.back-btn{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;color:#fff;background:var(--ink);border-radius:10px;padding:9px 16px;transition:.15s;flex:none}
+.back-btn:hover{background:var(--graphite)}
+.back-btn svg{width:15px;height:15px}
 .crumb{font-size:13px;color:var(--graphite-2);display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-start}
 .crumb a:hover{color:var(--ink)}
 .crumb .s{color:var(--faint);font-size:12px}
@@ -254,10 +257,16 @@ table.summary .eqcell{text-align:center}
         <a>الفصل الثاني</a><span class="s">←</span>
         <span class="cur">القطعة المتوسطة لشبه المنحرف</span>
       </nav>
-      <a class="edit" href="admin.html" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M4 20h4l11-11-4-4L4 16z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-        تعديل الدرس
-      </a>
+      <div style="display:flex;align-items:center;gap:10px;flex:none">
+        <a class="back-btn" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          الرئيسية
+        </a>
+        <a class="edit" href="admin.html" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 20h4l11-11-4-4L4 16z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          تعديل الدرس
+        </a>
+      </div>
     </div>
     <h1>القطعة المتوسطة لشبه المنحرف</h1>
   </div>
