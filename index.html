@@ -393,7 +393,7 @@ document.getElementById('cats').innerHTML=cats.map(s=>{
   </a>`;}).join('');
 
 const lessons=[
-  {t:'القطعة المتوسطة لشبه المنحرف',g:'أول ثانوي ٢٠٢٦',ch:'الفصل الثاني',new:true,f:['فيديو','تفاعلي']},
+  {t:'القطعة المتوسطة لشبه المنحرف',g:'أول ثانوي ٢٠٢٦',ch:'الفصل الثاني',new:true,f:['فيديو','تفاعلي'],url:'القطعة المتوسطة لشبه المنحرف.html'},
   {t:'شبه المنحرف متطابق الساقين',g:'أول ثانوي ٢٠٢٦',ch:'الفصل الثاني',new:true,f:['فيديو','تفاعلي']},
   {t:'الشروط الكافية للمعيّن',g:'أول ثانوي ٢٠٢٦',ch:'الفصل الثاني',new:true,f:['فيديو','تفاعلي']},
   {t:'المربع (حالة خاصة من المستطيل والمعيّن)',g:'أول ثانوي ٢٠٢٦',ch:'الفصل الثاني',new:true,f:['تفاعلي']},
@@ -415,7 +415,7 @@ const lessons=[
   {t:'حل المعادلات والمتباينات النسبية',g:'ثاني ثانوي',ch:'الفصل الثاني',new:false,f:['فيديو','تفاعلي']},
 ];
 document.getElementById('list').innerHTML=lessons.map((l,i)=>`
-  <a class="lesson">
+  <a class="lesson" ${l.url?`href="${l.url}"`:''}>
     <div class="thumb">${thumbSVG(i)}<div class="dur">٠٨:٣٠</div><div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
     <div class="body">
       <div class="kicker">${l.new?'<span class="tag new">جديد</span>':''}<span class="tag grade">${l.g} · ${l.ch}</span></div>
