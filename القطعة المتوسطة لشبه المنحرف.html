@@ -10,8 +10,13 @@
 <!-- MathJax for equations -->
 <script>
   window.MathJax = {
-    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
-    svg: { fontCache: 'none' }
+    loader: { load: ['[tex]/color'] },
+    tex: {
+      inlineMath: [['\\(','\\)']],
+      displayMath: [['\\[','\\]']],
+      packages: { '[+]': ['color'] }
+    },
+    svg: { fontCache: 'global' }
   };
 </script>
 <script>
@@ -352,7 +357,7 @@ table.summary .eqcell{text-align:center}
       <div class="lab">مثال محلول</div>
       <h4>إيجاد طول القطعة المتوسطة</h4>
       <p>في شبه منحرف، القاعدة الكبرى \(AB = 20\) والقاعدة الصغرى \(CD = 12\). أوجد \(MN\).</p>
-      <div class="work">\( MN = \tfrac{1}{2}(20 + 12) = \tfrac{1}{2}\times 32 = {\color{#C0392B}\mathbf{16}} \)</div>
+      <div class="work">\( MN = \tfrac{1}{2}(20 + 12) = \tfrac{1}{2}\times 32 = \)<span class="res">16</span></div>
     </div>
 
     <!-- interactive shape (KEPT EXACTLY) -->
